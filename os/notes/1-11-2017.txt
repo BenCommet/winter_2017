@@ -1,0 +1,10 @@
+@title - Goals and Purpose of Designing OS
+@list - Goals
+	1. Convenience for the User
+	2. Control Program
+@list - Purpose
+	1. effecient use of resources
+	2. resource allocation
+- Everything is a system call
+@def System Model - (figure 1.2 in text)
+@html - add image
