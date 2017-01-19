@@ -1,0 +1,8 @@
+@title - Operations
+# Creation - Spawning a Process
+@def fork() - System Call that creates an exact copy of parent process in seperate memory space
+* only difference between fork and parent process is process ID
+@def exec() - System call that Replaces the text(code)/data with the new program and then executes
+@def wait() - System call wait for some proecess (like the child you just spawned off) to terminate
+@def exit() - System call that is hit when you reach the end of a program, lets the parent process know to deallocate resources. Terminates and returns to wait() in parent
+

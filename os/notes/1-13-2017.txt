@@ -1,0 +1,15 @@
+@title - Processes
+@def process - program in execution
+* active -> get state
+* execute sequentially by default
+@list - Process States
+	1. Ready - runnable program, chilling in ready que
+	2. Running - currently on cpu
+	3. Blocked - waiting, not necessarily going to happen to every program
+@image - 3.2
+# Process Control Block:PCB
+@list Stored in process control block
+	1. IDs - Process ID - guarenteed to be unique, other id's
+	2.state info - Program counter, Stack Pointer (context switch)
+	3. memory information - pointers to page tables
+	4. Control info - priority, sheduling, cpu time, events waited for, listeners
