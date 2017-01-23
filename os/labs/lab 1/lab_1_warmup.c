@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 
-main(){
+int main(){
 	//Get the password struct of the current user id from the system
 	struct passwd *p = getpwuid(getuid());
 	//print out user name, user ID and group ID respectively
