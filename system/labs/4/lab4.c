@@ -78,14 +78,13 @@ void printInfo (FILE * f, Mark item)
 int compare (const void * a, const void * b)
 {
 	// compare two structures
-	// return 0 if they are equal, a value less than 0 if the first 
-	// comes before the second, a value greater than 0 otherwise 
+	// return 0 if they are equal, a value less than 0 if the first
+	// comes before the second, a value greater than 0 otherwise
 	Mark *markA = (Mark *)a;
 	Mark *markB = (Mark *)b;
 
 	int comp1 = markA->x - markB->x;
 	int comp2 = markA->y - markB->y;
 	if(comp1){ return comp1;}
-	else{return comp2;};
-	
+	else{return comp2;}
 }

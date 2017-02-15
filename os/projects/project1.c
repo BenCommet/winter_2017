@@ -16,6 +16,8 @@ void complementer(char *);
 void incrementer(char *);
 int isNumber(char[]);
 void adder(char *, char *);
+void exit_handler(int);
+void start_handler(int);
 int main(int argc, char **argv){
 	//pipes for communicating between processes
 	int com_to_inc[2];
@@ -28,8 +30,13 @@ int main(int argc, char **argv){
 	pid_t incrementerPid;
 	pid_t adderPid;
 
+	//Create the pipes used by the processes to communicate
 	pipe(com_to_inc);
 	pipe(inc_to_adder);
+
+	//Set the handler that will start up all our processes
+	signal (SIGINT, start_handler);
+
 	if(argc != 5){
 		printf("Input 2 command line arguments in the following format, <file1>, <file2> <number of elements>, <size of bits>.\n" );
 		exit(1);
@@ -59,9 +66,13 @@ int main(int argc, char **argv){
 		printf ("Cannot open file 2.\n");
 		exit(1);
 	}
+
+	fprintf(stderr, "Press ^C to begin" );
 	incrementerPid = fork();
-	//Incrementor process
+	//Complementer process
 	if(incrementerPid){
+			pause();
+			fprintf(stderr, "Starting...\n" );
 			char binary_string[num_bits + 1];
 			while(fgets(binary_string, num_bits + 3, fin1) != NULL){
 				complementer(binary_string);
@@ -71,8 +82,9 @@ int main(int argc, char **argv){
 			}
 	}
 	else{
+		//Set the exit handler for the incrementer and adder processes
 		adderPid = fork();
-		//Subtractor process;
+		//Incrementer process;
 		if(adderPid){
 			int i;
 			for(i = 0; i < num_elements; i++){
@@ -96,6 +108,7 @@ int main(int argc, char **argv){
 				if(fgets(binary_string_1, num_bits + 3, fin2) == NULL){
 					fprintf(stderr, "Error: file 2 length is not equal to the user supplied parameter");
 				}
+				fprintf(stderr, "%s\n", binary_string_0);
 				adder(binary_string_0, binary_string_1);
 			}
 		}
@@ -131,16 +144,12 @@ void complementer(char *binary_string){
 		if(binary_string[i] == '0'){ binary_string[i] = '1';}
 		else{binary_string[i] = '0';}
 	}
-
-
 }
 
 /*******************************************************************************
 *
 *******************************************************************************/
 void incrementer(char *binary_string){
-	fprintf(stderr, "%s\n", binary_string);
-
 	int i;
 	for(i = num_bits -1; i >=0; i--){
 		if(binary_string[i] == '1'){ binary_string[i] = '0';}
@@ -149,7 +158,6 @@ void incrementer(char *binary_string){
 			break;
 		}
 	}
-	fprintf(stderr, "%s\n\n", binary_string);
 
 }
 
@@ -157,7 +165,38 @@ void incrementer(char *binary_string){
 *
 *******************************************************************************/
 void adder(char *minuend, char *subtrahend){
-	int i;
-	for(i = 0;)
+	int i = 0;
+	fprintf(stderr, "  %s\n+ %s", minuend, subtrahend);
 
+	int carry = 0;
+	while(*(minuend + i)){
+		int num_0 = minuend[i] - '0';
+		int num_1 = subtrahend[i] - '0';
+		int total = carry + num_0 + num_1;
+		//minuend needs to be zero, is already set to zero
+		if(!total){ carry = 0;}
+		else if(total == 1){ minuend[i] = '1'; carry = 0;}
+		else if(total == 2){ minuend[i] = '0'; carry = 1;}
+		else if(total == 2){ minuend[i] = '1'; carry = 1;}
+		i++;
+	}
+	fprintf(stderr, "__________\n  %s\n\n", minuend);
+
+}
+
+/*******************************************************************************
+*
+*******************************************************************************/
+void exit_handler (int sigNum)
+{
+	printf ("That's it, I'm shutting you down\n");
+	exit(0);
+}
+
+/*******************************************************************************
+*
+*******************************************************************************/
+void start_handler(int sigNum){
+	printf("hit");
+	signal (SIGINT, exit_handler);
 }
