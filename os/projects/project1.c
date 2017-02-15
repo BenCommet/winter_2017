@@ -17,6 +17,7 @@
 #include <ctype.h>
 #include <string.h>
 
+//This number is needed globally
 int num_bits;
 
 void complementer(char *);
@@ -37,6 +38,7 @@ int main(int argc, char **argv){
 	//file pointers
 	FILE *fin1;
 	FILE *fin2;
+	FILE *fout = fopen("output.dat", "w");
 	//pipes for communicating between processes
 	pid_t isIncrementerPid;
 	pid_t adderPid;
@@ -149,8 +151,13 @@ int main(int argc, char **argv){
 				binary_string_1[strcspn(binary_string_1, "\r\n")] = 0;
 				fprintf(stderr, "Adder Read: %s,	", binary_string_1);
 				adder(binary_string_0, binary_string_1);
+				fprintf(fout, "%s\n", binary_string_0);
 				fprintf(stderr, "Adder writing %s\n", binary_string_0);
 			}
+			//Close the file pointers
+			fclose(fout);
+			fclose(fin1);
+			fclose(fin2);
 		}
 	}
 	// close off the pipes
