@@ -168,6 +168,7 @@ int main(int argc, char **argv){
 *******************************************************************************************/
 int isNumber(char *number)
 {
+  int i;
   for (i = 0; number[i] != 0; i++)
   {
     if (!isdigit(number[i]))
