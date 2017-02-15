@@ -52,8 +52,8 @@ int main(int argc, char **argv){
 	num_bits = atoi(argv[4]);
 
 	//Open the file
-	fin1 = fopen (file1, "r");
-	fin2 = fopen(file2, "r");
+	fin2 = fopen (file1, "r");
+	fin1 = fopen(file2, "r");
 	//Check to see if file exists
 	if ( fin1 == NULL )
 	{
@@ -75,8 +75,10 @@ int main(int argc, char **argv){
 			fprintf(stderr, "Starting...\n" );
 			char binary_string[num_bits + 1];
 			while(fgets(binary_string, num_bits + 3, fin1) != NULL){
-				complementer(binary_string);
 				binary_string[strcspn(binary_string, "\r\n")] = 0;
+				fprintf(stderr, "Complementer read: %s,		", binary_string);
+				complementer(binary_string);
+				fprintf(stderr, "Complementer sending: %s\n", binary_string);
 				close(com_to_inc[0]);
 				write(com_to_inc[1], binary_string, sizeof(binary_string) + 1);
 			}
@@ -91,11 +93,12 @@ int main(int argc, char **argv){
 				close(com_to_inc[1]);
 				char binary_string[num_bits + 1];
 				read(com_to_inc[0], binary_string, sizeof(binary_string) + 1);
+				fprintf(stderr, "Incrementer recieved: %s,	", binary_string);
 				incrementer(binary_string);
+				fprintf(stderr, "Incrementer Sending: %s\n", binary_string);
 				close(inc_to_adder[0]);
 				write(inc_to_adder[1], binary_string, sizeof(binary_string) +1);
 			}
-
 		}
 		//Adder process
 		else{
@@ -105,11 +108,15 @@ int main(int argc, char **argv){
 				char binary_string_0[num_bits + 1];
 				char binary_string_1[num_bits + 1];
 				read(inc_to_adder[0], binary_string_0, sizeof(binary_string_0) + 1);
+				fprintf(stderr, "Adder Recieved: %s		", binary_string_0);
 				if(fgets(binary_string_1, num_bits + 3, fin2) == NULL){
 					fprintf(stderr, "Error: file 2 length is not equal to the user supplied parameter");
+					exit(1);
 				}
-				fprintf(stderr, "%s\n", binary_string_0);
+				binary_string_1[strcspn(binary_string_1, "\r\n")] = 0;
+				fprintf(stderr, "Adder Read: %s,	", binary_string_1);
 				adder(binary_string_0, binary_string_1);
+				fprintf(stderr, "Adder writing %s\n", binary_string_0);
 			}
 		}
 	}
@@ -165,8 +172,8 @@ void incrementer(char *binary_string){
 *
 *******************************************************************************/
 void adder(char *minuend, char *subtrahend){
-	int i = 0;
-	fprintf(stderr, "  %s\n+ %s", minuend, subtrahend);
+	int i = strlen(minuend) - 1;
+	// fprintf(stderr, "  %s\n+ %s", minuend, subtrahend);
 
 	int carry = 0;
 	while(*(minuend + i)){
@@ -177,10 +184,10 @@ void adder(char *minuend, char *subtrahend){
 		if(!total){ carry = 0;}
 		else if(total == 1){ minuend[i] = '1'; carry = 0;}
 		else if(total == 2){ minuend[i] = '0'; carry = 1;}
-		else if(total == 2){ minuend[i] = '1'; carry = 1;}
-		i++;
+		else if(total == 3){ minuend[i] = '1'; carry = 1;}
+		i--;
 	}
-	fprintf(stderr, "__________\n  %s\n\n", minuend);
+	// fprintf(stderr, "__________\n  %s\n\n", minuend);
 
 }
 
@@ -197,6 +204,5 @@ void exit_handler (int sigNum)
 *
 *******************************************************************************/
 void start_handler(int sigNum){
-	printf("hit");
 	signal (SIGINT, exit_handler);
 }
