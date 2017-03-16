@@ -1,0 +1,19 @@
+@title - Address binding
+@def address binding - where to find memory object
+* symbolic [x]-> relocatable [x + 24] -> Absolute [0xFFFFFFFFFFFFF]
+* windows -> dynamically linked libraries (dll)
+* linux -> Shared Libs
+* Real-physical memory mean RAM
+* Real memory can be broken into fixed partition and variable partition schemes
+* Virtual memory can be broken into paged, segmented and combination paged, segmented
+* |OS |||| User|  |||| = fence register
+@def fence register - A register that serves as a protective barrier between segments of memory
+@list - Assumptions about memory
+  1. Limited amount of memory
+  2. Instructions/data in memory (addresses)
+  3. Process is contiguous in memory
+  4. Entire process is in memory
+@def fixed partitions - memory is partitioned into a fixed # of fixed-size regions
+* only 1 process per partition
+* scheduling
+* Internal fragmentation (memory wasted inside partition)
