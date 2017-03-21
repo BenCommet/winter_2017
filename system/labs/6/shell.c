@@ -16,7 +16,7 @@ int main(int argc, char **argv){
 	//Make the array one larger than fgets allows to let us concatonate a space
 	//at the end
 	char input[MAXLINE];
-	printf("shell> ");
+	printf("mysh$  ");
 	//Accept user input until they quit out
 	while(1){
 		//limit input to the size of the predeclared input array
@@ -72,7 +72,7 @@ int background(char **args){
 		//wait and print the cpu usage statistics
 		waitpid(-1, &status, 0);
 	}
-	//print shell> to make it move apparent that this is a prompt
-	printf("shell>");
+	//print mysh$  to make it move apparent that this is a prompt
+	printf("mysh$ ");
 	return 0;
 }
