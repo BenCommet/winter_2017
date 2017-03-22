@@ -5,6 +5,7 @@
 #define MAX_IDENTIFIER_LENGTH 31
 
 void handleChar(char currentString[], char newChar){
+  currentString[strcspn(currentString, "\r\n")] = 0;
   int len = strlen(currentString);
   if(len == 0){
     if(isalpha(newChar) || newChar == '_'){
@@ -14,7 +15,8 @@ void handleChar(char currentString[], char newChar){
   else if(isalpha(newChar) || newChar == '_' || isdigit(newChar)){
     currentString[len] = newChar;
   }
-  else{
+  else if(len != 0){
+    currentString[strcspn(currentString, "\r\n")] = 0;
     add_identifier(currentString);
     memset(currentString, 0, MAX_IDENTIFIER_LENGTH);
   }
@@ -23,8 +25,8 @@ void handleChar(char currentString[], char newChar){
 int main(){
     char currentIdentifier[MAX_IDENTIFIER_LENGTH];
     currentIdentifier[0] = 's';
-    initialize_list(currentIdentifier);
-    add_identifier(currentIdentifier);
+    initialize_list("squiesh");
+
     FILE *file_in;
     char buf[1000];
     int isSingleLineComment = 0;
@@ -42,19 +44,24 @@ int main(){
           //If we are already in a comment or string don't look for beginning characters
           if(!isSingleLineComment && !isMultiLineComment && !isString){
             if(buf[i] == '/'){
-              isSingleLineComment = 1;
+              if(buf[i + 1] == '/'){
+                isSingleLineComment = 1;
+              }
               if(buf[i + 1] == '*'){
                 isSingleLineComment = 0;
                 isMultiLineComment = 1;
               }
             }
-            else if(buf[i] == '"'){ isString = 1;}
-          }
-          if(isMultiLineComment && buf[i] == '/'){
-            isMultiLineComment = 0;
-          }
-          else if(isString && buf[i] == '"'){
-            isString = 0;
+            else if(buf[i] == '"'){
+               isString = 1;
+             }
+          }else{
+            if(isMultiLineComment && buf[i] == '*' && buf[i + 1] == '/'){
+              isMultiLineComment = 0;
+            }
+            else if(isString && buf[i] == '"'){
+              isString = 0;
+            }
           }
           if(!isSingleLineComment && !isMultiLineComment && !isString){
             handleChar(currentIdentifier, buf[i]);
@@ -62,6 +69,7 @@ int main(){
         }
     }
     fclose(file_in);
+
     printList();
     return 0;
 

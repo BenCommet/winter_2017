@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MAX_IDENTIFIER_LENGTH 31
 
 struct node{
     char *identifier;
@@ -25,13 +26,14 @@ void initialize_list(char *_identifier){
     head->next = NULL;
 }
 
-void push(char * _identifier){
+void push(char _identifier[]){
     struct node * new_node;
     new_node = malloc(sizeof(struct node));
     new_node->occurences = 1;
     new_node->identifier = _identifier;
     new_node->next = head;
     head = new_node;
+    return;
 }
 
 void move_to_front(struct node * current, struct node * previous){
@@ -44,21 +46,24 @@ void move_to_front(struct node * current, struct node * previous){
     head = current;
 }
 
-void add_identifier( char _identifier[]){
+void add_identifier( char *_identifier){
+    //make local copy of string
+    char *copy = malloc(1 + strlen(_identifier));
+    if(copy){ strcpy(copy, _identifier);}
     struct node * current = head;
     struct node * previous = NULL;
-    printf("%s : %s\n",_identifier, current->identifier );
     while(current != NULL){
-        if(strcmp(_identifier, current->identifier) == 0){
+        if(strcmp(copy, current->identifier) == 0){
             current->occurences++;
             move_to_front(current, previous);
+
             return;
         }
         previous = current;
         current = current -> next;
     }
     //We will only reach this point in the method if the identifier is currently not in the list
-    push(_identifier);
+    push(copy);
 }
 
 // int main() {
