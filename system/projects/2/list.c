@@ -44,9 +44,10 @@ void move_to_front(struct node * current, struct node * previous){
     head = current;
 }
 
-void add_identifier( char *_identifier){
+void add_identifier( char _identifier[]){
     struct node * current = head;
     struct node * previous = NULL;
+    printf("%s : %s\n",_identifier, current->identifier );
     while(current != NULL){
         if(strcmp(_identifier, current->identifier) == 0){
             current->occurences++;
