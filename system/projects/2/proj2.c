@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include "list.h"
 #define MAX_IDENTIFIER_LENGTH 31
+#define true 1
+#define false 0
 
 void handleChar(char currentString[], char newChar){
   currentString[strcspn(currentString, "\r\n")] = 0;
@@ -25,17 +27,15 @@ void handleChar(char currentString[], char newChar){
 int main(){
     char currentIdentifier[MAX_IDENTIFIER_LENGTH];
     currentIdentifier[0] = 's';
-    initialize_list("squiesh");
-
     FILE *file_in;
     char buf[1000];
-    int isSingleLineComment = 0;
-    int isMultiLineComment = 0;
-    int isString = 0;
+    int isSingleLineComment = false;
+    int isMultiLineComment = false;
+    int isString = false;
     file_in = fopen("sample.c", "r");
     if(!file_in){
         printf("File failed to open");
-        return 1;
+        return true;
     }
     while(fgets(buf, 1000, file_in)!=NULL){
         isSingleLineComment = 0;
@@ -45,22 +45,22 @@ int main(){
           if(!isSingleLineComment && !isMultiLineComment && !isString){
             if(buf[i] == '/'){
               if(buf[i + 1] == '/'){
-                isSingleLineComment = 1;
+                isSingleLineComment = true;
               }
               if(buf[i + 1] == '*'){
-                isSingleLineComment = 0;
-                isMultiLineComment = 1;
+                isSingleLineComment = false;
+                isMultiLineComment = true;
               }
             }
             else if(buf[i] == '"'){
-               isString = 1;
+               isString = true;
              }
           }else{
             if(isMultiLineComment && buf[i] == '*' && buf[i + 1] == '/'){
-              isMultiLineComment = 0;
+              isMultiLineComment = false;
             }
             else if(isString && buf[i] == '"'){
-              isString = 0;
+              isString = false;
             }
           }
           if(!isSingleLineComment && !isMultiLineComment && !isString){
@@ -71,6 +71,6 @@ int main(){
     fclose(file_in);
 
     printList();
-    return 0;
+    return false;
 
 }

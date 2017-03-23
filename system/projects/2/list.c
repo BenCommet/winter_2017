@@ -3,20 +3,26 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAX_IDENTIFIER_LENGTH 31
+#define true 1
+#define false 0
 
 struct node{
     char *identifier;
     int occurences;
     struct node *next;
 };
-struct node *head;
+struct node *head = NULL;
 
 void printList(){
+    FILE *file_out;
+    file_out = fopen("output.txt", "w");
     struct node *current = head;
     while(current != NULL){
-        printf("%s: %d\n", current->identifier, current->occurences );
+        // printf("%s: %d\n", current->identifier, current->occurences );
+        fprintf(file_out, "%s: %d\n", current->identifier, current->occurences );
         current = current -> next;
     }
+
 }
 
 void initialize_list(char *_identifier){
@@ -27,13 +33,38 @@ void initialize_list(char *_identifier){
 }
 
 void push(char _identifier[]){
-    struct node * new_node;
-    new_node = malloc(sizeof(struct node));
-    new_node->occurences = 1;
-    new_node->identifier = _identifier;
-    new_node->next = head;
-    head = new_node;
-    return;
+    if(head == NULL){
+      initialize_list(_identifier);
+    }
+    else{
+      struct node * new_node;
+      new_node = malloc(sizeof(struct node));
+      new_node->occurences = 1;
+      new_node->identifier = _identifier;
+      new_node->next = head;
+      head = new_node;
+      return;
+    }
+}
+
+int remove_by_identifier(char * _identifier){
+  struct node * current = head;
+  struct node * previous = NULL;
+
+  if(strcmp(head->identifier, _identifier)){
+    head = head->next;
+    return true;
+  }
+
+  while(current != NULL){
+    if(strcmp(_identifier, current->identifier) == 0){
+      previous->next = current->next;
+    }
+    previous = current;
+    current = current->next;
+    return true;
+  }
+  return false;
 }
 
 void move_to_front(struct node * current, struct node * previous){
