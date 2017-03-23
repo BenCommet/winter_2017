@@ -5,7 +5,9 @@
 #define MAX_IDENTIFIER_LENGTH 31
 #define true 1
 #define false 0
-
+/*******************************************************************************
+*
+*******************************************************************************/
 void handleChar(char currentString[], char newChar){
   currentString[strcspn(currentString, "\r\n")] = 0;
   int len = strlen(currentString);
@@ -24,6 +26,9 @@ void handleChar(char currentString[], char newChar){
   }
 }
 
+/*******************************************************************************
+*
+*******************************************************************************/
 int main(){
     char currentIdentifier[MAX_IDENTIFIER_LENGTH];
     currentIdentifier[0] = 's';

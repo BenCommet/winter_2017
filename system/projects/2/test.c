@@ -1,4 +1,4 @@
 
 int main(){
-  int @ishths = 0;
+  int ishths = 0;
 }
