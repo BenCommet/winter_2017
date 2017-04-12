@@ -1,0 +1,3 @@
+Fall 2010	CIS162	Introduction to Java
+Winter 2012	CIS262	Data Structures
+Fall 2011	CIS361	System Programming
