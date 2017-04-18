@@ -1,0 +1,15 @@
+#!/bin/tcsh
+set num = 0
+echo -n "enter a few numbers, this program will find the largest integer: "
+set list = ($<)
+if($#list > 0 && $#list < 8)then
+  set max = $list[0]
+  foreach i ($list)
+    if($max < $i)then
+      @ max = $i
+    endif
+  end
+  echo The largest number is $max
+else
+  echo "The program will only accept between 1 and 7 arguments"
+endif
