@@ -1,0 +1,12 @@
+cipher: cipher.c
+	gcc cipher.c -o cipher
+cipher.o cipher.c
+decrypt: decrypt.c
+	gcc decrypt.c -0 decrypt -std=c99
+
+testfile: test
+
+test:
+	./cipher 1 2 test.txt encrypt.txt
+	./decrypt encrypt.txt decrypt.txt
+	diff -s encrypt.txt decrypt.txt

@@ -1,8 +1,3 @@
-//Matt Noblett
-//CIS 361 - Winter 2017
-//Cipher Breaker
-
-
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,14 +34,14 @@ void calcFreq(float found[], char fname[]){
     FILE *fIn;
     char c;
     int count = 0;
-
+    //open the file from the given parameter
     fIn = fopen(fname, "r");
-
+    //Check and see if the file is successfully opened
     if(fIn == NULL){
         printf("Cannot Open File");
         exit(0);
     }
-
+    //read the file til we get to the end
     while((c = fgetc(fIn)) != EOF){
         if(isalpha(c)){
             if(c >= 'a' && c <= 'z'){
@@ -78,10 +73,11 @@ char rotate( char ch, int num){
 
 }
 
-float diffTwoSquares(float a, float b){
-    float x = a - b;
-    return x*x;
-}
+/*******************************************************************************
+* This function rotates the array by one
+* @param{float[]} a - hhe array being rotated
+* @param{int} n - the depth we will be rotating the array to
+*******************************************************************************/
 void rotateOne(float a[], int n){
     int i;
     int temp;
@@ -92,6 +88,22 @@ void rotateOne(float a[], int n){
     }
 }
 
+/*******************************************************************************
+* This function gets the difference between two floats
+* @param{float} a - the number being subtracted from
+* @param{float} b - the number being used to subtract
+*******************************************************************************/
+float diffBetweenSquares(float a, float b){
+    float x = a - b;
+    return x*x;
+}
+
+/*******************************************************************************
+* This function will rotate the array a specified number of times
+* @param{float []} a - the array of floats we are modifying
+* @param{int} n - the number of letters available in total
+* @param{int} d - the number of positions we rotate
+*******************************************************************************/
 void rotateArray(float a[], int n, int d){
     int i;
     for(i = 0; i< d; i++){
@@ -99,20 +111,29 @@ void rotateArray(float a[], int n, int d){
     }
 }
 
-int findLeast(float array[], int size){
+/*******************************************************************************
+* This method finds the smallest number in an array of floats
+* @param{float []} arr - the array we are finding the smallest number in
+* @param{int} length - the length of arr
+*******************************************************************************/
+int findLeast(float arr[], int length){
     int f;
     float temp;
-    for(int i = 0; i < size; i++){
-        if(array[i] < temp){
-            temp = array[i];
+    for(int i = 0; i < length; i++){
+        if(arr[i] < temp){
+            temp = arr[i];
             f = i;
         }
     }
     return f;
 }
 
-
-int findkey(float given[], float found[]){
+/*******************************************************************************
+* Uses the array of floats taken from the LetFreq txt file and determines how
+* many times we need to rotate to solve the cipher
+* @param {float} given
+*******************************************************************************/
+int findKey(float given[], float found[]){
 
     float f;
     float difference[26];
@@ -120,7 +141,7 @@ int findkey(float given[], float found[]){
         rotateArray(found, 26, x);
         f = 0;
         for( int y = 0; y < 26; y++){
-            f += diffTwoSquares(given[y], found[y]);
+            f += diffBetweenSquares(given[y], found[y]);
         }
         difference[x] = f;
     }
@@ -147,8 +168,12 @@ void decrypt(int key, char in[], char out[]){
     fclose(fIn);
     fclose(fOut);
 }
-
-
+/*******************************************************************************
+* Main function, calls all the necessary methods to get the decryption ball
+* rolling
+* @param{int} argc - number of argumetns
+* @param {char *[]} - array of arguments passed by the user.
+*******************************************************************************/
 int main(int argc, char * argv[]){
     int key;
 
