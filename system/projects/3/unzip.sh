@@ -16,6 +16,9 @@ for file in *; do
         if [ "${currentStudent}" != "" ]
         then
             make -C "${currentStudent}"
+            ./"${currentStudent}"/cipher 1 3 ../data.txt ../encrypt.txt
+            ./"${currentStudent}"/cipher 2 3 ../encrypt.txt ../decrypt.txt
+            cmp --silent ../data.txt ../decrypt.txt || echo The files encrypted by "${currentStudent}" do not match
         fi
 
         currentStudent="${_Separated[1]}"
