@@ -18,7 +18,13 @@ for file in *; do
             make -C "${currentStudent}"
             ./"${currentStudent}"/cipher 1 3 ../data.txt ../encrypt.txt
             ./"${currentStudent}"/cipher 2 3 ../encrypt.txt ../decrypt.txt
-            cmp --silent ../data.txt ../decrypt.txt || echo The files encrypted by "${currentStudent}" do not match
+            isCorrect=true
+            cmp --silent ../data.txt ../decrypt.txt || isCorrect=false
+            if [ $isCorrect == true ]; then
+              echo "${currentStudent}: files match"
+            else
+              echo "${currentStudent}: files do not match"
+            fi
         fi
 
         currentStudent="${_Separated[1]}"
@@ -30,3 +36,14 @@ for file in *; do
     fi;
 
 done
+
+make -C "${currentStudent}"
+./"${currentStudent}"/cipher 1 3 ../data.txt ../encrypt.txt
+./"${currentStudent}"/cipher 2 3 ../encrypt.txt ../decrypt.txt
+isCorrect=true
+cmp --silent ../data.txt ../decrypt.txt || isCorrect=false
+if [ $isCorrect == true ]; then
+  echo "${currentStudent}: files match"
+else
+  echo "${currentStudent}: files do not match"
+fi

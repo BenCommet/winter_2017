@@ -1,0 +1,28 @@
+Archive:  cis361p4.zip
+  inflating: penis/Project 4_edwardsj_attempt_2013-03-08-10-16-08_cipher.c  
+  inflating: penis/Project 4_edwardsj_attempt_2013-03-08-10-16-08_LetFreq.txt  
+  inflating: penis/Project 4_edwardsj_attempt_2013-03-08-10-16-08_makefile  
+  inflating: penis/Project 4_edwardsj_attempt_2013-03-08-10-16-08.txt  
+  inflating: penis/Project 4_harrisr_attempt_2013-03-02-15-56-34_cipher.c  
+  inflating: penis/Project 4_harrisr_attempt_2013-03-02-15-56-34_LetFreq.txt  
+  inflating: penis/Project 4_harrisr_attempt_2013-03-02-15-56-34_makefile  
+  inflating: penis/Project 4_harrisr_attempt_2013-03-02-15-56-34.txt  
+  inflating: penis/Project 4_smitht_attempt_2013-03-03-16-18-29_cipher.c  
+  inflating: penis/Project 4_smitht_attempt_2013-03-03-16-18-29_LetFreq.txt  
+  inflating: penis/Project 4_smitht_attempt_2013-03-03-16-18-29_makefile  
+  inflating: penis/Project 4_smitht_attempt_2013-03-03-16-18-29.txt  
+make: Entering directory '/home/commetb/git/winter_2017/system/projects/3/penis/edwardsj'
+cc    -c -o cipher.o cipher.c
+gcc cipher.o -o cipher
+make: Leaving directory '/home/commetb/git/winter_2017/system/projects/3/penis/edwardsj'
+edwardsj: files match
+make: Entering directory '/home/commetb/git/winter_2017/system/projects/3/penis/harrisr'
+cc    -c -o cipher.o cipher.c
+gcc cipher.o -o cipher
+make: Leaving directory '/home/commetb/git/winter_2017/system/projects/3/penis/harrisr'
+harrisr: files match
+make: Entering directory '/home/commetb/git/winter_2017/system/projects/3/penis/smitht'
+cc    -c -o cipher.o cipher.c
+gcc cipher.o -o cipher
+make: Leaving directory '/home/commetb/git/winter_2017/system/projects/3/penis/smitht'
+smitht: files match
